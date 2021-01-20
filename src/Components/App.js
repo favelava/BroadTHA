@@ -95,7 +95,6 @@ class Choropleth extends React.Component {
           locationmode: 'country names',
           locations: locations,
           z: zarray,
-          colorscale: 'RdBu',
           automargin: true,
           colorbar: {
             x: -0.2,
@@ -108,7 +107,8 @@ class Choropleth extends React.Component {
           height: 550,
           geo: {
             projection: {
-              type: 'robinson'
+              type: 'robinson',
+              landcolor: 'black'
             }
           }
         }
