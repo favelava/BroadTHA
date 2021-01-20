@@ -1,13 +1,85 @@
-body {
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+* {
+  box-sizing: border-box;
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  text-align: center;
+}
+
+.header {
+  background: #6FB4FF;
+  border-radius: 10px;
+  color: white;
+  padding: 2px 0px;
+  padding-left: 35px;
+}
+
+.choropleth {
+  background: none;
+  display: inline-block;
+  float: left;
+  width: 50%;
+}
+
+.country-button {
+  background: #8FC5FF;
+  border-color: white;
+  border-radius: 10px;
+  border-style: solid;
+  border-width: 1px;
+  display: block;
+  font-size: 16px;
+  padding: 10px 0px;
+  width: 100%;
+}
+
+.country-button:hover {
+  color: white;
+  cursor: pointer;
+}
+
+.column.left {
+  float: left;
+  width: 12%;
+}
+
+.column.right {
+  float: left;
+  text-align: center;
+  width: 88%;
+}
+
+.dropdown-content {
+  background: white;
+  overflow: hidden;
+  overflow-y: scroll;
+  max-height: 85vh;
+}
+
+.data-button {
+  background: #8FC5FF;
+  border-color: white;
+  border-radius: 10px;
+  border-style: solid;
+  border-width: 1px;
+  color: white;
+  cursor: pointer;
+  display: inline-block;
+  font-size: 24px;
+  margin: 0px 2px;
+  padding: 5px 0px;
+  width: 24%;
+}
+
+.data-button:hover {
+  color: #DAECFF;
+}
+
+.graph {
+  display: inline-block;
+  float: left;
+  width: 50%;
 }
