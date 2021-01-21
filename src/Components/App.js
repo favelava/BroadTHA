@@ -17,37 +17,20 @@ const elasticity = require('../data/json_files/elasticity.json');
 class App extends React.Component {
   constructor(props) {
     super(props);
-    let list = [];
-    const json = caseCounts;
-
-    Object.keys(json).forEach(key => {
-      list.push(key);
-    })
 
     this.state = {
-      json: json,
       jsonFiles: [caseCounts, sequences, seqPerThou, elasticity],
       jsonLabels: ['Number of Covid Cases', 'Number of Sequences', 'Sequences per 1000 Cases', 'Elasticity'],
       jsonIndex: 0,
       countryIndex: [0, 0, 0, 0],
-      countries: list,
-      country: list[0]
+      countries: Object.keys(caseCounts)
     };
   }
 
   handleClick(i) {
-    let list = [];
-    const json = this.state.jsonFiles[i];
-
-    Object.keys(json).forEach(key => {
-      list.push(key);
-    })
-
     this.setState({
-      json: json,
       jsonIndex: i,
-      countries: list,
-      country: list[this.state.countryIndex[i]]
+      countries: Object.keys(this.state.jsonFiles[i])
     })
   }
 
@@ -57,7 +40,6 @@ class App extends React.Component {
 
     this.setState({
       countryIndex: index,
-      country: this.state.countries[index[i]]
     })
   }
 
@@ -83,15 +65,15 @@ class App extends React.Component {
 
           <div className='graph'>
             <Graph
-              json={this.state.json}
-              country={this.state.country}
+              json={this.state.jsonFiles[this.state.jsonIndex]}
+              country={this.state.countries[this.state.countryIndex[this.state.jsonIndex]]}
             />
           </div>
 
           <div className='choropleth'>
             <Choropleth
-              json={this.state.json}
-              country={this.state.country}
+              json={this.state.jsonFiles[this.state.jsonIndex]}
+              country={this.state.countries[this.state.countryIndex[this.state.jsonIndex]]}
               jsonLabel={this.state.jsonLabels[this.state.jsonIndex]}
             />
           </div>
