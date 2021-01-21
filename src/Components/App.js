@@ -1,9 +1,12 @@
 import React from 'react';
-import Plot from 'react-plotly.js';
+import CountryList from './CountryList.js';
+import DataButtonRow from './DataButtonRow.js';
+import Graph from './Graph.js';
+import Choropleth from './Choropleth.js';
 import '../index.css';
 
 /*
- To add more json files, require the json as below. In the App React Component's constructor, add the variable name to this.state.jsonFiles, a label to this.state.jsonLabels, and an initial index to this.state.countryIndex
+ To add more json files, list the path to the json file as below. In the App React Component's constructor, add the variable name to this.state.jsonFiles, a label to this.state.jsonLabels, and an initial index to this.state.countryIndex
 */
 
 const caseCounts = require('../data/json_files/counts.json');
@@ -11,178 +14,40 @@ const sequences = require('../data/json_files/sequences.json');
 const seqPerThou = require('../data/json_files/sequencesper1000cases.json');
 const elasticity = require('../data/json_files/elasticity.json');
 
-function Button(props) {
-  return (
-    <button className={props.name} onClick={props.onClick}>
-      {props.value}
-    </button>
-  );
-}
-
-class DataButtonRow extends React.Component {
-  // Renders 'data buttons' representing the json files loaded into the App
-  render() {
-    let numarray = [];
-    for (let i=0, len=this.props.jsonLabels.length; i < len; i++){
-      numarray.push(i);
-    }
-
-    return (
-      numarray.map(num => {
-        return (
-          <Button
-            value={this.props.jsonLabels[num]}
-            onClick={()=>this.props.onClick(num)}
-            name={'data-button'}
-          />
-        );
-      })
-    );
-  }
-}
-
-class CountryList extends React.Component {
-  makeButtons() {
-    // Automatically makes buttons for every country in current json file
-    let numarray = [];
-    for (let i=0, len=this.props.countries.length; i < len; i++){
-      numarray.push(i);
-    }
-
-    return (
-      <ul>
-      {
-        numarray.map(num => {
-          return(<li key={num}>
-            <Button
-            value={this.props.countries[num]}
-            onClick={()=>this.props.onClick(num)}
-            name={'country-button'}
-            />
-            </li>
-          );
-        })
-      }
-      </ul>
-    );
-  }
-
-  render() {
-    return (
-      <div>
-          {this.makeButtons()};
-      </div>
-    );
-  }
-}
-
-class Choropleth extends React.Component {
-  render() {
-    let locations = Object.keys(this.props.json['All']);
-    let zarray = [];
-
-    Object.values(this.props.json['All']).forEach((value) => {
-      zarray.push(parseInt(value));
-    });
-
-
-    console.log(zarray);
-
-    return (
-      <Plot data={[
-        {
-          type: 'choropleth',
-          locationmode: 'country names',
-          locations: locations,
-          z: zarray,
-          automargin: true,
-          colorbar: {
-            x: -0.2,
-          }
-        }
-      ]}
-      layout = {
-        {
-          title: 'Choropleth Map: ' + this.props.jsonLabel,
-          height: 550,
-          geo: {
-            projection: {
-              type: 'robinson',
-              landcolor: 'black'
-            }
-          }
-        }
-      }
-      />
-    );
-  }
-}
-
-class Graph extends React.Component {
-  // Plotly React Component plots the current jsonFile/country pair
-  render() {
-    let yarray = [];
-    let data = this.props.json[this.props.country];
-    let xarray = Object.keys(data);
-
-    Object.values(data).forEach(value => {
-      yarray.push(parseInt(value));
-    })
-
-    if (this.props.country.localeCompare('All') === 0) {
-      return (
-        <Plot data = {[
-          {
-            x: xarray,
-            y: yarray,
-            type: 'bar',
-          }
-        ]}
-        layout = {
-          {title: 'All',
-          automargin: true
-          }
-        }
-        />
-      );
-    } else {
-      return (
-        <Plot data={[
-            {
-              x: xarray,
-              y: yarray,
-              type: 'scatter',
-              mode: 'lines+markers',
-              marker: {color: 'red'}
-            }
-          ]}
-          layout = {
-            {title: this.props.country,
-            }
-          }
-        />
-      );
-    }
-  }
-}
-
 class App extends React.Component {
   constructor(props) {
     super(props);
+    let list = [];
+    const json = caseCounts;
+
+    Object.keys(json).forEach(key => {
+      list.push(key);
+    })
 
     this.state = {
+      json: json,
       jsonFiles: [caseCounts, sequences, seqPerThou, elasticity],
       jsonLabels: ['Number of Covid Cases', 'Number of Sequences', 'Sequences per 1000 Cases', 'Elasticity'],
       jsonIndex: 0,
       countryIndex: [0, 0, 0, 0],
-      countries: Object.keys(caseCounts)
+      countries: list,
+      country: list[0]
     };
   }
 
   handleClick(i) {
+    let list = [];
+    const json = this.state.jsonFiles[i];
+
+    Object.keys(json).forEach(key => {
+      list.push(key);
+    })
+
     this.setState({
+      json: json,
       jsonIndex: i,
-      countries: Object.keys(this.state.jsonFiles[i])
+      countries: list,
+      country: list[this.state.countryIndex[i]]
     })
   }
 
@@ -191,7 +56,8 @@ class App extends React.Component {
     index[this.state.jsonIndex] = i;
 
     this.setState({
-      countryIndex: index
+      countryIndex: index,
+      country: this.state.countries[index[i]]
     })
   }
 
@@ -217,15 +83,15 @@ class App extends React.Component {
 
           <div className='graph'>
             <Graph
-              json={this.state.jsonFiles[this.state.jsonIndex]}
-              country={this.state.countries[this.state.countryIndex[this.state.jsonIndex]]}
+              json={this.state.json}
+              country={this.state.country}
             />
           </div>
 
           <div className='choropleth'>
             <Choropleth
-              json={this.state.jsonFiles[this.state.jsonIndex]}
-              country={this.state.countries[this.state.countryIndex[this.state.jsonIndex]]}
+              json={this.state.json}
+              country={this.state.country}
               jsonLabel={this.state.jsonLabels[this.state.jsonIndex]}
             />
           </div>
