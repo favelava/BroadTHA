@@ -1,0 +1,20 @@
+{
+  "files": {
+    "main.css": "/BroadTHA/static/css/main.581b8b26.chunk.css",
+    "main.js": "/BroadTHA/static/js/main.1ce066fb.chunk.js",
+    "main.js.map": "/BroadTHA/static/js/main.1ce066fb.chunk.js.map",
+    "runtime-main.js": "/BroadTHA/static/js/runtime-main.0bfea497.js",
+    "runtime-main.js.map": "/BroadTHA/static/js/runtime-main.0bfea497.js.map",
+    "static/js/2.c1a366c6.chunk.js": "/BroadTHA/static/js/2.c1a366c6.chunk.js",
+    "static/js/2.c1a366c6.chunk.js.map": "/BroadTHA/static/js/2.c1a366c6.chunk.js.map",
+    "index.html": "/BroadTHA/index.html",
+    "static/css/main.581b8b26.chunk.css.map": "/BroadTHA/static/css/main.581b8b26.chunk.css.map",
+    "static/js/2.c1a366c6.chunk.js.LICENSE.txt": "/BroadTHA/static/js/2.c1a366c6.chunk.js.LICENSE.txt"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.0bfea497.js",
+    "static/js/2.c1a366c6.chunk.js",
+    "static/css/main.581b8b26.chunk.css",
+    "static/js/main.1ce066fb.chunk.js"
+  ]
+}
